@@ -544,6 +544,8 @@ $('#reset').click(function() {
 
   start = true;
   totalpausetime = 0;
+  pausetime = 0;
+  $('#pauseclock').timer('reset');
   displayTaktende();
   $('#clock').timer('reset');
   // Pausetimer hidden
@@ -552,9 +554,12 @@ $('#reset').click(function() {
 });
 
 $('#pause').click(function() {
-  $('#clock').timer('pause');
-  $('#pauseclock').timer('reset');
-  pausePressed = true;
+  // verhindern das Pausen durch mehrmaliges druecken nicht gezaehlt werden
+  if (pausePressed === false && autopause === false) {
+    $('#pauseclock').timer('reset');
+    pausePressed = true;
+  }
+
   manPause = true;
   // Pausetimer visible
   var div = document.getElementById('pauseclock');
@@ -570,7 +575,7 @@ $('#resume').click(function() {
   $('#clock').timer('resume');
   $('#pauseclock').timer('pause');
   pausetime = $('#pauseclock').data('seconds');
-  if (pausePressed && autopause === false) {
+  if (pausePressed === true && autopause === false) {
 
     totalpausetime = totalpausetime + pausetime;
   //  document.getElementById("clock6").innerHTML = ""+totalpausetime;
