@@ -29,7 +29,7 @@
 
 
       margin-bottom: 5px;
-      margin-top: 50px;
+      margin-top: 150px;
       padding: 2px 2px;
       text-align: right;
       height: 50px;
@@ -125,7 +125,7 @@
       text-align: right;
       margin-left: auto;
       margin-right: auto;
-      margin-bottom: 100px;
+      margin-bottom: 0px;
     }
   </style>
 </head>
@@ -135,7 +135,8 @@
 <div class="container">
   <div class="lead" id="Uhrzeit"></div>
   <div class="lead" id="Datum"></div>
-  <div class="lead" id="KW"></div>
+    <div class="lead" id="KW"></div>
+
   <div class="starter-template">
     <div class="lead" id="versionInfo"></div>
     <p class="lead"<br> </p>
@@ -464,14 +465,18 @@ window.setInterval(function(){
 
   var now = new (Date);
   var weekday = now.getDay();
+  var ArrayTage = new Array ("Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag");
+  function TagText (Zahl) { return ArrayTage[Zahl]; }
+  var Wochentag = TagText(weekday);
 
 
 
   var nowString = now.toLocaleString();
+
   var nowDate1 = nowString.split(' ')[0];
   var nowDate2 = nowString.split(' ')[1];
   var nowDate3 = nowString.split(' ')[2];
-  var nowDate = nowDate1+" "+nowDate2+" "+nowDate3;
+  var nowDate =  Wochentag+" "+nowDate1+" "+nowDate2+" "+nowDate3;
   var nowTime = nowString.split(' ')[4];
 
 
@@ -524,7 +529,7 @@ window.setInterval(function(){
         }
 
         document.getElementById("clock4").innerHTML = "";
-        document.getElementById("clock5").innerHTML = "";
+        document.getElementById("clock3").innerHTML = "";
         document.getElementById("Uhrzeit").innerHTML = ""+nowTime;
         document.getElementById("Datum").innerHTML = ""+nowDate;
         document.getElementById("KW").innerHTML = "KW : "+KW;
