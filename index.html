@@ -39,8 +39,8 @@
     .starter-template {
 
 
-      margin-top: : 0px;
-      padding: 2px 2px;
+
+      padding: 2px;
       padding-bottom: 5px;
       text-align: center;
       height: 10px;
@@ -135,7 +135,10 @@
 <div class="container">
   <div class="lead" id="Uhrzeit"></div>
   <div class="lead" id="Datum"></div>
-    <div class="lead" id="KW"></div>
+   <div class="lead" id="KW"><h3><span class = "label label-info" id="KWA"></span></h3></div>
+
+
+
 
   <div class="starter-template">
     <div class="lead" id="versionInfo"></div>
@@ -222,7 +225,7 @@ a1EndDecisionDate.setTime(a1EndDate.getTime() - 230 * 60 * 1000);
 
 
 document.getElementById("clock").innerHTML = "00:00:00";
-document.getElementById("versionInfo").innerHTML = "ver. 0.1.3";
+document.getElementById("versionInfo").innerHTML = "ver. 0.1.4";
 
 
 
@@ -464,20 +467,30 @@ window.setInterval(function(){
 
 
   var now = new (Date);
+  // wochentag ermitteln
   var weekday = now.getDay();
   var ArrayTage = new Array ("Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag");
   function TagText (Zahl) { return ArrayTage[Zahl]; }
   var Wochentag = TagText(weekday);
-
-
-
+  // uhrzeit erzeugen
+  var stunde = now.getHours();
+  var minute = now.getMinutes();
+  var sekunde = now.getSeconds();
+  Zeit = ((stunde < 10) ? " 0" : " ") + stunde;
+  Zeit += ((minute < 10) ? ":0" : ":") + minute;
+  Zeit += ((sekunde < 10) ? ":0" : ":") + sekunde;
+  // Zeitaanzeige zusammensetzen : z.B.  Montag 11. Juli 2016
   var nowString = now.toLocaleString();
-
   var nowDate1 = nowString.split(' ')[0];
   var nowDate2 = nowString.split(' ')[1];
   var nowDate3 = nowString.split(' ')[2];
   var nowDate =  Wochentag+" "+nowDate1+" "+nowDate2+" "+nowDate3;
-  var nowTime = nowString.split(' ')[4];
+
+
+
+
+
+
 
 
   if (now >= p1BeginnDate && now <= p1EndDate && weekday < 6)/* <6 Mo-Fr */{
@@ -499,7 +512,7 @@ window.setInterval(function(){
       autoPause = false;
       }
   else if (now <= a1BeginnDate && weekday < 6) {
-       document.getElementById("clock3").innerHTML = "(06:35 - 14:30 Uhr)";
+       document.getElementById("clock3").innerHTML = "(Taktzeiten von 06:35 bis 14:25 Uhr)";
       $('#clock').timer('pause');
        //vor Arbeitsbeginn automatisch starten
        start = true;
@@ -508,7 +521,7 @@ window.setInterval(function(){
       }
   else if (now >= a1EndDate && weekday < 6) {
 
-      document.getElementById("clock3").innerHTML = "(06:35 - 14:30 Uhr)";
+      document.getElementById("clock3").innerHTML = "(Taktzeiten von 06:35 bis 14:25 Uhr)";
        $('#clock').timer('pause');
 
        autoPause = true;
@@ -530,9 +543,9 @@ window.setInterval(function(){
 
         document.getElementById("clock4").innerHTML = "";
 
-        document.getElementById("Uhrzeit").innerHTML = ""+nowTime;
+        document.getElementById("Uhrzeit").innerHTML = ""+Zeit+" Uhr";
         document.getElementById("Datum").innerHTML = ""+nowDate;
-        document.getElementById("KW").innerHTML = "KW : "+KW;
+        document.getElementById("KWA").innerHTML = "KW : "+KW;
 
 }, 1000);
 
