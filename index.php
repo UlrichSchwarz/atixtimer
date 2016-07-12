@@ -18,6 +18,13 @@
   <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
   <style type="text/css">
     body
+
+
+
+
+
+
+
     {
       padding-top: 10px;
 
@@ -129,6 +136,32 @@
     }
   </style>
 </head>
+<?php
+    $host_name  = "db606994136.db.1and1.com";
+    $database   = "db606994136";
+    $user_name  = "dbo606994136";
+    $password   = "F-pa76forme";
+
+
+    $connect = mysqli_connect($host_name, $user_name, $password, $database);
+
+    if(mysqli_connect_errno())
+    {
+    echo "Verbindung zum MySQL Server fehlgeschlagen:";
+    }
+    else
+    {
+    echo '<p>Verbindung zum MySQL Server erfolgreich aufgebaut.</p>';
+    }
+    $query = "SELECT * FROM atixtimer";
+    if ($result = mysqli_query($connect, $query)){
+      $row = mysqli_fetch_array($result);
+      print_r($row);
+      echo $row;
+    }
+?>
+
+
 <body background="blue.jpg">
 
 
@@ -179,6 +212,11 @@
   </div>
 </div>
 <script type="text/javascript">
+
+
+
+
+
 var pausePressed = false;
 var pausetime = 0;
 var totalpausetime = 0;
@@ -186,6 +224,8 @@ var manPause = false;
 var autoPause = false;
 var start = false;
 var KW ="";
+
+
 
 
 var startDate = new Date();
@@ -225,6 +265,8 @@ a1EndDecisionDate.setTime(a1EndDate.getTime() - 230 * 60 * 1000);
 
 
 document.getElementById("clock").innerHTML = "00:00:00";
+
+// Versionsnummer ausgeben
 document.getElementById("versionInfo").innerHTML = "ver. 0.1.4";
 
 
@@ -543,7 +585,7 @@ window.setInterval(function(){
 
         document.getElementById("clock4").innerHTML = "";
 
-        document.getElementById("Uhrzeit").innerHTML = "";
+        document.getElementById("Uhrzeit").innerHTML = ""+Zeit+" Uhr";
         document.getElementById("Datum").innerHTML = ""+nowString;
         document.getElementById("KWA").innerHTML = "KW : "+KW;
 
@@ -605,19 +647,9 @@ $('#resume').click(function() {
 
 });
 
-
-
-
-
-
-
-
-
-
-
 </script>
 
-
+<?php include ("db.php"); ?>
 
 
 </body>
