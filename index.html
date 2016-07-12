@@ -225,7 +225,7 @@ a1EndDecisionDate.setTime(a1EndDate.getTime() - 230 * 60 * 1000);
 
 
 document.getElementById("clock").innerHTML = "00:00:00";
-document.getElementById("versionInfo").innerHTML = "ver. 0.1.4";
+document.getElementById("versionInfo").innerHTML = "ver. 0.1.5";
 
 
 
@@ -480,11 +480,9 @@ window.setInterval(function(){
   Zeit += ((minute < 10) ? ":0" : ":") + minute;
   Zeit += ((sekunde < 10) ? ":0" : ":") + sekunde;
   // Zeitaanzeige zusammensetzen : z.B.  Montag 11. Juli 2016
-  var nowString = now.toLocaleString();
-  var nowDate1 = nowString.split(' ')[0];
-  var nowDate2 = nowString.split(' ')[1];
-  var nowDate3 = nowString.split(' ')[2];
-  var nowDate =  Wochentag+" "+nowDate1+" "+nowDate2+" "+nowDate3;
+  var nowDateString = now.toLocaleDateString();
+  var nowTimeString = now.toLocaleTimeString();
+
 
 
 
@@ -543,8 +541,8 @@ window.setInterval(function(){
 
         document.getElementById("clock4").innerHTML = "";
 
-        document.getElementById("Uhrzeit").innerHTML = "";
-        document.getElementById("Datum").innerHTML = ""+nowString;
+        document.getElementById("Uhrzeit").innerHTML = ""+nowTimeString;
+        document.getElementById("Datum").innerHTML = ""+nowDateString;
         document.getElementById("KWA").innerHTML = "KW : "+KW;
 
 }, 1000);
