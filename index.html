@@ -19,20 +19,44 @@
   <style type="text/css">
     body
     {
-      padding-top: 90px;
+      padding-top: 10px;
+
+    }
+
+    .container{
+
+
+
+
+      margin-bottom: 5px;
+      margin-top: 50px;
+      padding: 2px 2px;
+      text-align: right;
+      height: 50px;
+      color: white;
     }
 
     .starter-template {
-      padding: 50px 15px;
+
+
+      margin-top: : 0px;
+      padding: 2px 2px;
+      padding-bottom: 5px;
       text-align: center;
-      height: 30px;
+      height: 10px;
       color: white;
     }
     .panel {
+
+      border: 1px solid #e5e5e5;
       text-align: center;
       width: 900px;
       background-color: transparent;
       color: white;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      padding-bottom: 0px;
+      padding-top: 0px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -62,18 +86,56 @@
       width: 900px;
       background-color: transparent;
       height: 30;
-      font-size: 70px;
+      font-size: 20px;
 
       text-align: right;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      padding-bottom: 0px;
+      padding-top: 0px;
+    }
+    #Datum
+    {
+      width: 900px;
+      background-color: transparent;
+      height: 30;
+      font-size: 20px;
+      text-align: right;
+      margin-left: auto;
+      margin-right: auto;
       margin-bottom: 0;
     }
-
+    #Uhrzeit
+    {
+      width: 900px;
+      background-color: transparent;
+      height: 30;
+      font-size: 20px;
+      text-align: right;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 0;
+    }
+    #KW
+    {
+      width: 900px;
+      background-color: transparent;
+      height: 30;
+      font-size: 20px;
+      text-align: right;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 100px;
+    }
   </style>
 </head>
 <body background="blue.jpg">
 
 
 <div class="container">
+  <div class="lead" id="Uhrzeit"></div>
+  <div class="lead" id="Datum"></div>
+  <div class="lead" id="KW"></div>
   <div class="starter-template">
     <div class="lead" id="versionInfo"></div>
     <p class="lead"<br> </p>
@@ -119,6 +181,7 @@ var totalpausetime = 0;
 var manPause = false;
 var autoPause = false;
 var start = false;
+var KW ="";
 
 
 var startDate = new Date();
@@ -158,10 +221,18 @@ a1EndDecisionDate.setTime(a1EndDate.getTime() - 230 * 60 * 1000);
 
 
 document.getElementById("clock").innerHTML = "00:00:00";
-document.getElementById("versionInfo").innerHTML = "ver. 0.1.2";
+document.getElementById("versionInfo").innerHTML = "ver. 0.1.3";
 
 
 
+
+function KalenderWoche() {
+  var KWDatum = new Date();
+  var DonnerstagDat = new Date(KWDatum.getTime() + (3-((KWDatum.getDay()+6) % 7)) * 86400000); KWJahr = DonnerstagDat.getFullYear();
+  var DonnerstagKW = new Date(new Date(KWJahr,0,4).getTime() + (3-((new Date(KWJahr,0,4).getDay()+6) % 7)) * 86400000);
+  KW = Math.floor(1.5 + (DonnerstagDat.getTime() - DonnerstagKW.getTime()) / 86400000/7);
+}
+ KalenderWoche();
 
 function displayTaktende()  {
 
@@ -396,7 +467,12 @@ window.setInterval(function(){
 
 
 
-  var nowString = now.toLocaleTimeString()
+  var nowString = now.toLocaleString();
+  var nowDate1 = nowString.split(' ')[0];
+  var nowDate2 = nowString.split(' ')[1];
+  var nowDate3 = nowString.split(' ')[2];
+  var nowDate = nowDate1+" "+nowDate2+" "+nowDate3;
+  var nowTime = nowString.split(' ')[4];
 
 
   if (now >= p1BeginnDate && now <= p1EndDate && weekday < 6)/* <6 Mo-Fr */{
@@ -420,27 +496,38 @@ window.setInterval(function(){
   else if (now <= a1BeginnDate && weekday < 6) {
        document.getElementById("clock3").innerHTML = "(06:35 - 14:30 Uhr)";
       $('#clock').timer('pause');
-
-       autopause = true;
+       //vor Arbeitsbeginn automatisch starten
+       start = true;
+       autoPause = true;
+       displayTaktende();
       }
   else if (now >= a1EndDate && weekday < 6) {
 
       document.getElementById("clock3").innerHTML = "(06:35 - 14:30 Uhr)";
        $('#clock').timer('pause');
 
-       autopause = true;
+       autoPause = true;
       }
 
 
   else  {
           if  (start) {
-                        document.getElementById("clock3").innerHTML = "";
+            //nach einer Pause die Infozeile mit Pausenmeldung leeren
+            document.getElementById("clock3").innerHTML = "";
+
+            document.getElementById("clock4").innerHTML = "";
+            document.getElementById("clock5").innerHTML = "";
+            document.getElementById("clock6").innerHTML = "";
                        $('#clock').timer('resume');
                        autopause = false;
                      }
         }
 
-
+        document.getElementById("clock4").innerHTML = "";
+        document.getElementById("clock5").innerHTML = "";
+        document.getElementById("Uhrzeit").innerHTML = ""+nowTime;
+        document.getElementById("Datum").innerHTML = ""+nowDate;
+        document.getElementById("KW").innerHTML = "KW : "+KW;
 
 }, 1000);
 
@@ -467,6 +554,7 @@ $('#pause').click(function() {
   // Pausetimer visible
   var div = document.getElementById('pauseclock');
   div.style.visibility = 'visible';
+
 });
 
 $('#resume').click(function() {
